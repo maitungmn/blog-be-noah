@@ -1,4 +1,4 @@
-import { BLOGS_REPOSITORY, DATABASE_CONNECTION } from 'src/constants';
+import { BLOGS_REPOSITORY, DATABASE_CONNECTION } from '../constants';
 import { Connection } from 'typeorm';
 import { Blogs } from './entities/blog.entity';
 

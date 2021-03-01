@@ -1,7 +1,7 @@
-import { adminAuth, usersCol } from 'src/firebase/admin';
+import { adminAuth, usersCol } from '../firebase/admin';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IUserInfo } from './dto/userInfo.dto';
-import { USERS_REPOSITORY } from 'src/constants';
+import { USERS_REPOSITORY } from '../constants';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 

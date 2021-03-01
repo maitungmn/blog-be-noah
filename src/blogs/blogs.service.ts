@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { blogCol } from 'src/firebase/admin';
+import { blogCol } from '../firebase/admin';
 import { IBlog, IBlogMainInfos, IUpdateBlogMainInfos } from './dto/blog.dto';
 import { Request } from "express";
-import { BLOGS_REPOSITORY } from 'src/constants';
+import { BLOGS_REPOSITORY } from '../constants';
 import { Repository } from 'typeorm';
 import { Blogs } from './entities/blog.entity';
 

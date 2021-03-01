@@ -1,4 +1,4 @@
-import { DATABASE_CONNECTION } from 'src/constants';
+import { DATABASE_CONNECTION } from '../constants';
 import { ConnectionOptions, createConnection } from 'typeorm';
 require('dotenv').config();
 
