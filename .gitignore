@@ -40,3 +40,5 @@ yarn.lock
 *firebase-admin.json
 
 .env*
+
+*start-db.sh
