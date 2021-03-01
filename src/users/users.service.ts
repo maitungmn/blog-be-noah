@@ -31,7 +31,6 @@ export class UsersService {
         email: userInfo.email,
         username: userInfo.name,
         phone: userInfo.phone,
-        password: userInfo.password,
         dob: userInfo.dob,
         role: userInfo.role || "default",
       }

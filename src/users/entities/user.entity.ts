@@ -17,9 +17,6 @@ export class User {
   @Column({ type: 'varchar', length: 300 })
   dob: string;
 
-  @Column({ type: 'varchar', length: 300 })
-  password: string;
-
   @Column({ type: 'varchar', length: 300, default: "default", nullable: true })
   role: string;
 }
