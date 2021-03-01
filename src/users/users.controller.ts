@@ -1,5 +1,6 @@
-import { Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { Request } from "express";
+import { IUserInfo } from './dto/userInfo.dto';
 
 import { UsersService } from './users.service';
 
@@ -12,7 +13,12 @@ export class UsersController {
   //   return this.usersService.update(+id, updateUserDto);
   // }
 
-  @Post('auth/verify')
+  @Post('register')
+  createUser(@Body() userInfo: IUserInfo) {
+    return this.usersService.createUser(userInfo)
+  }
+
+  @Post('verify')
   verifyToken(@Req() req: Request) {
     const token = req.headers.authorization;
     return this.usersService.verifyToken(token);

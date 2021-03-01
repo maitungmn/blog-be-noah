@@ -12,10 +12,7 @@ import { UsersModule } from './users/users.module';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(PreauthMiddleware)
-    .exclude({
-      path: "users/auth",
-      method: RequestMethod.ALL
-    })
+    .exclude('users/(.*)')
     .forRoutes({
       path: "*",
       method: RequestMethod.ALL
