@@ -37,6 +37,6 @@ yarn.lock
 
 .aws
 
-*/firebase-admin.json
+*firebase-admin.json
 
 .env*
