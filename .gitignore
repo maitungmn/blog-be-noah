@@ -36,3 +36,7 @@ yarn.lock
 !.vscode/extensions.json
 
 .aws
+
+*firebase-admin.json
+
+.env*
