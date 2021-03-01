@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { blogCol } from 'src/firebase/admin';
-import { IBlog, IBlogMainInfos } from './dto/blog.dto';
+import { IBlog, IBlogMainInfos, IUpdateBlogMainInfos } from './dto/blog.dto';
 import { Request } from "express";
 
 @Injectable()
@@ -36,7 +36,9 @@ export class BlogsService {
         ...updateBlogDto.title ? { title: updateBlogDto.title } : null,
         ...updateBlogDto.imageUrl ? { imageUrl: updateBlogDto.imageUrl } : null,
         ...updateBlogDto.content ? { content: updateBlogDto.content } : null,
-      } as Partial<IBlogMainInfos>)
+        _updatedBy: "admin",
+        _updatedAt: new Date(),
+      } as Partial<IUpdateBlogMainInfos>)
       return {
         data: res
       }
@@ -45,9 +47,16 @@ export class BlogsService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} blog`;
-  // }
+  async remove(id: string) {
+    try {
+      const res = await blogCol.doc(id).delete()
+      return {
+        data: res
+      }
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST)
+    }
+  }
 
   blogInfoValidator(createBlogDto: IBlogMainInfos) {
     if (this.validBlogInfosKey.some(i => !createBlogDto[i])) {

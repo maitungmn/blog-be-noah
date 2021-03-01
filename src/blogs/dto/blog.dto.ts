@@ -3,6 +3,11 @@ export interface IBlog extends IBlogMainInfos {
   _createAt: Date;
 }
 
+export interface IUpdateBlogMainInfos extends IBlogMainInfos {
+  _updatedBy: string;
+  _updatedAt: Date;
+}
+
 export interface IBlogMainInfos {
   title: string;
   imageUrl: string;

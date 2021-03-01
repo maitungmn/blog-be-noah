@@ -12,13 +12,13 @@ export class BlogsController {
     return this.blogsService.create(createBlogDto, req);
   }
 
-  // @Put(':id')
-  // update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-  //   return this.blogsService.update(+id, updateBlogDto);
-  // }
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateBlogDto: Partial<IBlogMainInfos>) {
+    return this.blogsService.update(id, updateBlogDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.blogsService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.blogsService.remove(id);
+  }
 }

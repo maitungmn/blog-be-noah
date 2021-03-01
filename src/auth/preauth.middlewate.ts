@@ -9,7 +9,6 @@ export class PreauthMiddleware implements NestMiddleware {
   }
 
   async use(req: Request, res: Response, next: Function) {
-    console.log(1111)
     const token = req.headers.authorization;
     if (token != null && token != "") {
       try {
