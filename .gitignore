@@ -44,3 +44,5 @@ yarn.lock
 *start-db.sh
 
 ormconfig.json
+
+.builds

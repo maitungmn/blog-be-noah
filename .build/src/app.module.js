@@ -7,14 +7,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const preauth_middlewate_1 = require("./auth/preauth.middlewate");
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const users_module_1 = require("./users/users.module");
+const blogs_module_1 = require("./blogs/blogs.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(preauth_middlewate_1.PreauthMiddleware)
+            .exclude('users/(.*)')
+            .forRoutes({
+            path: "*",
+            method: common_1.RequestMethod.ALL
+        });
+    }
 };
 AppModule = __decorate([
     common_1.Module({
-        imports: [],
+        imports: [
+            config_1.ConfigModule.forRoot(),
+            users_module_1.UsersModule,
+            blogs_module_1.BlogsModule,
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
