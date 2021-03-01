@@ -1,14 +1,19 @@
 import { adminAuth, usersCol } from 'src/firebase/admin';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IUserInfo } from './dto/userInfo.dto';
+import { USERS_REPOSITORY } from 'src/constants';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   private validUserInfosKey = ["name", "phone", "dob", "email", "password"]
   private validAdminRoles = ["admin", "default"]
 
-  constructor() {
-  }
+  constructor(
+    @Inject(USERS_REPOSITORY)
+    private usersRepository: Repository<User>,
+  ) { }
 
   async createUser(userInfo: IUserInfo) {
     this.userInfoValidator(userInfo)
@@ -21,13 +26,27 @@ export class UsersService {
         displayName: userInfo.name,
         disabled: false,
       })
-      await usersCol(userRecord.uid).set({
+
+      const updateObj = {
         email: userInfo.email,
         username: userInfo.name,
         phone: userInfo.phone,
+        password: userInfo.password,
         dob: userInfo.dob,
         role: userInfo.role || "default",
+      }
+
+      const fbPromise = usersCol(userRecord.uid).set(updateObj)
+
+      const users = new User()
+      Object.assign(users, {
+        ...updateObj,
+        userID: userRecord.uid,
       })
+      const pgPromise = this.usersRepository.save(users)
+
+      await Promise.all([fbPromise, pgPromise])
+
       return {
         data: userRecord
       }

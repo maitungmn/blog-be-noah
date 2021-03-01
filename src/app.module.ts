@@ -7,7 +7,11 @@ import { BlogsModule } from './blogs/blogs.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UsersModule, BlogsModule],
+  imports: [
+    ConfigModule.forRoot(),
+    UsersModule,
+    BlogsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
