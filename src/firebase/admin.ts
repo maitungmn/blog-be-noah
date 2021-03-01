@@ -1,6 +1,6 @@
 import * as firebaseAdmin from "firebase-admin";
 import firebaseConfig from "./configs";
-import * as serviceAccount from "./firebase-admin.json";
+import * as serviceAccount from "../../firebase-admin.json";
 
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
@@ -14,3 +14,9 @@ if (!firebaseAdmin.apps.length) {
 }
 
 export { firebaseAdmin };
+export const adminAuth = firebaseAdmin.auth()
+export const realTimeDB = firebaseAdmin.database()
+export const firestore = firebaseAdmin.firestore()
+
+export const usersCol = (userID: string = "") => realTimeDB.ref("Users/" + (userID || ""));
+export const blogCol = firestore.collection("blogs")

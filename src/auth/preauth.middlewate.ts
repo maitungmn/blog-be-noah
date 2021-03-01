@@ -1,36 +1,41 @@
+import { adminAuth, usersCol } from './../firebase/admin';
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { Request, Response } from "express";
-import { firebaseAdmin } from "src/firebase/admin";
 
 @Injectable()
 export class PreauthMiddleware implements NestMiddleware {
 
-  constructor() { }
+  constructor() {
+  }
 
-  use(req: Request, res: Response, next: Function) {
+  async use(req: Request, res: Response, next: Function) {
+    console.log(1111)
     const token = req.headers.authorization;
     if (token != null && token != "") {
-      firebaseAdmin.auth().verifyIdToken(token.replace("Bearer ", ""))
-        .then(async decodedToken => {
-          const user = {
-            email: decodedToken.email
-          };
-          req["user"] = user;
+      try {
+        const decodedToken = await adminAuth.verifyIdToken(token.replace("Bearer ", ""))
+        req["user"] = decodedToken;
+
+        const userSnapshot = await usersCol(decodedToken.uid).get()
+        if (!userSnapshot.exists() || userSnapshot.val()?.role !== "admin") {
+          this.accessDenied(res, "Invalid admin token!");
+        } else {
           next();
-        }).catch(error => {
-          console.error(error);
-          this.accessDenied(req.url, res, error.errorInfo?.message);
-        });
+        }
+
+      } catch (error) {
+        console.error(error);
+        this.accessDenied(res, error.errorInfo?.message);
+      }
     } else {
-      this.accessDenied(req.url, res);
+      this.accessDenied(res);
     }
   }
 
-  private accessDenied(url: string, res: Response, msg: string = "") {
+  private accessDenied(res: Response, msg: string = "") {
     res.status(403).json({
       statusCode: 403,
       timestamp: new Date().toISOString(),
-      path: url,
       message: msg || "Access Denied"
     });
   }

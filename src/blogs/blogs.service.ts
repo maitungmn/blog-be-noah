@@ -1,23 +1,20 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { firebaseAdmin } from 'src/firebase/admin';
+import { blogCol } from 'src/firebase/admin';
 import { IBlog, IBlogMainInfos } from './dto/blog.dto';
+import { Request } from "express";
 
 @Injectable()
 export class BlogsService {
   private validBlogInfosKey = ["title", "imageUrl", "content"]
-  private firestore: FirebaseFirestore.Firestore;
-  private blogCol: FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>;
 
   constructor() {
-    this.firestore = firebaseAdmin.firestore()
-    this.blogCol = this.firestore.collection("blogs")
   }
 
-  async create(createBlogDto: IBlogMainInfos) {
+  async create(createBlogDto: IBlogMainInfos, req: Request) {
     this.blogInfoValidator(createBlogDto)
 
     try {
-      const res = await this.blogCol.doc().set({
+      const res = await blogCol.doc().set({
         title: createBlogDto.title,
         content: createBlogDto.content,
         imageUrl: createBlogDto.imageUrl,
@@ -32,9 +29,21 @@ export class BlogsService {
     }
   }
 
-  // update(id: number, updateBlogDto) {
-  //   return `This action updates a #${id} blog`;
-  // }
+  async update(id: string, updateBlogDto: Partial<IBlogMainInfos>) {
+    this.modifiedBlogInfoValidator(updateBlogDto)
+    try {
+      const res = await blogCol.doc(id).update({
+        ...updateBlogDto.title ? { title: updateBlogDto.title } : null,
+        ...updateBlogDto.imageUrl ? { imageUrl: updateBlogDto.imageUrl } : null,
+        ...updateBlogDto.content ? { content: updateBlogDto.content } : null,
+      } as Partial<IBlogMainInfos>)
+      return {
+        data: res
+      }
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST)
+    }
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} blog`;
@@ -42,6 +51,12 @@ export class BlogsService {
 
   blogInfoValidator(createBlogDto: IBlogMainInfos) {
     if (this.validBlogInfosKey.some(i => !createBlogDto[i])) {
+      throw new HttpException("Invalid request body!", HttpStatus.BAD_REQUEST)
+    }
+  }
+
+  modifiedBlogInfoValidator(blogDto: Partial<IBlogMainInfos>) {
+    if (Object.keys(blogDto).every(i => !this.validBlogInfosKey.includes(i))) {
       throw new HttpException("Invalid request body!", HttpStatus.BAD_REQUEST)
     }
   }
