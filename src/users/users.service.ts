@@ -33,10 +33,10 @@ export class UsersService {
         return decodedToken
       } catch (error) {
         console.error(error);
-        throw error
+        throw new HttpException(error, HttpStatus.BAD_REQUEST)
       }
     } else {
-      throw Error("Token was missing!")
+      throw new HttpException("Token was missing!", HttpStatus.BAD_REQUEST)
     }
   }
 
