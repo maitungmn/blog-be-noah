@@ -10,6 +10,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
+  region: ap-southeast-1
 
 functions:
   main: # The name of the lambda function
