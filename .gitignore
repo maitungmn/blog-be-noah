@@ -45,4 +45,5 @@ yarn.lock
 
 ormconfig.json
 
-.builds
+.build/
+build/

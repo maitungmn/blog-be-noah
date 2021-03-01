@@ -1,3 +1,0 @@
-export declare const DATABASE_CONNECTION = "DATABASE_CONNECTION";
-export declare const USERS_REPOSITORY = "USERS_REPOSITORY";
-export declare const BLOGS_REPOSITORY = "BLOGS_REPOSITORY";
