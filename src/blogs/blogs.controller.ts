@@ -10,7 +10,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
-import { BLOGS } from 'src/constants';
+import { BLOGS } from '../constants';
 import { sampleCreateBlogSuccessResult } from './docs';
 
 @ApiBearerAuth()
@@ -50,6 +50,7 @@ export class BlogsController {
     name: 'id',
     type: 'string'
   })
+  @ApiBody({ type: IBlogMainInfos })
   @ApiResponse({
     status: HttpStatus.OK,
     description: JSON.stringify(sampleCreateBlogSuccessResult),
