@@ -1,5 +1,7 @@
 import { DATABASE_CONNECTION } from '../constants';
 import { ConnectionOptions, createConnection } from 'typeorm';
+import { Blogs } from '../blogs/entities/blog.entity';
+import { User } from '../users/entities/user.entity';
 require('dotenv').config();
 
 const configs = {
@@ -18,6 +20,8 @@ export const databaseProviders = [
       database: 'blogs',
       entities: [
         __dirname + '/../**/*.entity{.ts,.js}',
+        Blogs,
+        User,
       ],
       synchronize: true,
     } as ConnectionOptions),

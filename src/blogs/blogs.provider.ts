@@ -1,5 +1,5 @@
 import { BLOGS_REPOSITORY, DATABASE_CONNECTION } from '../constants';
-import { Connection } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { Blogs } from './entities/blog.entity';
 
 export const blogsProviders = [
