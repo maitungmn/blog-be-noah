@@ -105,12 +105,9 @@ export class BlogsService {
           ...foundBlog,
           ...updateObj,
         })
-      }
-    } finally {
-      if (mergedUpdateObj) {
         await this.blogsRepository.save(mergedUpdateObj)
       }
-    }
+    } finally { }
   }
 
   async findOneAndRemove(blogID) {
