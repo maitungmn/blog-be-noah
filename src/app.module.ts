@@ -19,9 +19,8 @@ import { BlogsModule } from './blogs/blogs.module';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(PreauthMiddleware)
-      .exclude('users/(.*)', 'api/(.*)')
       .forRoutes({
-        path: "*",
+        path: "blogs",
         method: RequestMethod.ALL
       })
   }

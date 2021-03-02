@@ -5,21 +5,21 @@ import {
 type TUserRoles = "admin" | "default"
 
 export class IUserInfo {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   phone: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   dob: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   password: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ type: String, required: false, default: "default" })
   role?: TUserRoles;
 }

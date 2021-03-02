@@ -2,7 +2,7 @@ service:
   name: nest-serverless-lambda-demo
 
 plugins:
-  - 'serverless-plugin-typescript'
+  - "serverless-plugin-typescript"
   - serverless-plugin-optimize
   - serverless-offline
   - serverless-dotenv-plugin
@@ -20,3 +20,7 @@ functions:
       - http:
           method: any
           path: /{any+}
+
+custom:
+  optimize:
+    external: ["swagger-ui-dist"]
