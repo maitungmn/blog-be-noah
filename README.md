@@ -34,3 +34,6 @@ Local Run Command:
 $ yarn start:dev
 
 Server Github: https://github.com/maitungmn/blog-be-noah
+
+**Note:
+In case of using register api, need to fill phone by 11 numbers.
